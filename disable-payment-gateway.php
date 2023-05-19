@@ -95,12 +95,7 @@ final class DisablePaymentGateway {
      */
     public function init_plugin() {
 
-        //new DisablePaymentGateway\Assets();
         new DisablePaymentGateway\DisablePaymentGatewayi18n();
-
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            new DisablePaymentGateway\Ajax();
-        }
 
         if ( is_admin() ) {
             new DisablePaymentGateway\Admin();
