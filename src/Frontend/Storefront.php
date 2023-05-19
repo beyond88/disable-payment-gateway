@@ -1,7 +1,6 @@
 <?php 
 namespace  DisablePaymentGateway\Frontend;
 use DisablePaymentGateway\Helpers;
-// use DisablePaymentGateway\Traits;
 
 /**
  * This classs is responsible to handle 
@@ -10,12 +9,6 @@ use DisablePaymentGateway\Helpers;
  */
 class Storefront {
 
-    // use Singleton;
-
-    public function __construct() {
-        add_filter( 'woocommerce_available_payment_gateways', [ $this, 'unset_gateway_by_products' ], PHP_INT_MAX );
-    }
-
     /**
      * Unset payment methods for the selected product types
      * 
@@ -23,7 +16,7 @@ class Storefront {
      * @param none
      * @return void
      */
-    public function init() {
+    public function __construct() {
         add_filter( 'woocommerce_available_payment_gateways', [ $this, 'unset_gateway_by_products' ], PHP_INT_MAX );
     }
  
@@ -36,6 +29,7 @@ class Storefront {
      */
     public function unset_gateway_by_products( $available_gateways ) {
         
+
         if ( ! is_checkout() ) return $available_gateways;
 
         $settings = Helpers::get_settings();
@@ -47,7 +41,9 @@ class Storefront {
             $unset = true;
         }
 
-        if ( $unset == true ) unset( $available_gateways[$target_payment_method] );
+        if ($unset) {
+            unset($available_gateways[$target_payment_method]);
+        }
         return $available_gateways;
 
     }
