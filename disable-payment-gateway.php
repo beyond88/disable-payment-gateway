@@ -53,7 +53,7 @@ final class DisablePaymentGateway {
 
         $this->define_constants();
 
-        register_activation_hook( DQFWC_FILE, [ $this, 'activate' ] );
+        register_activation_hook( DPGW_FILE, [ $this, 'activate' ] );
 
         add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
     }
@@ -124,9 +124,9 @@ final class DisablePaymentGateway {
 /**
  * Bootstrap the plugin
  */
-function DQFWC() {
-    return DefaultQuantityForWoocommerce::init();
+function disable_payment_gateway() {
+    return DisablePaymentGateway::init();
 }
 
 // Fly
-DQFWC();
+disable_payment_gateway();
