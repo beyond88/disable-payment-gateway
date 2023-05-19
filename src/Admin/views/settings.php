@@ -1,10 +1,6 @@
 <?php 
 	settings_errors(); 
 	$setting_options = wp_parse_args( get_option( $this->_optionName ), $this->_defaultOptions );
-
-    echo "<pre>";
-    print_r($settings);
-    echo "</pre>";
 ?>
 <div class="dpgw-settings-wrap">
     <div class="dpgw-settings-content">
@@ -21,13 +17,12 @@
                             </th>
                             <td class="forminp forminp-text">
                                 <?php if ( ! empty( $product_types ) ) : ?>
-                                    <select name="product_type" id="product_type" class="">
+                                    <select name="dpgw_settings[product_type]" id="product_type" class="">
                                         <?php foreach( $product_types as $type_id => $type_name ): ?>
                                             <?php
-                                                $type = $settings['product_type'];
                                                 $selected = '';
                                                 if( isset( $type_id ) ) :
-                                                    if( $type == $type_id ) :
+                                                    if( $settings['product_type'] == $type_id ) :
                                                         $selected ='selected';
                                                     endif;
                                                 endif; 
@@ -50,18 +45,18 @@
                             </th>
                             <td class="forminp forminp-text">
                                 <?php if (!empty($payment_methods)): ?>
-                                    <select name="payment_gateway" id="payment_gateway" class="">
-                                        <?php foreach ($payment_methods as $method): ?>
+                                    <select name="dpgw_settings[payment_gateway]" id="payment_gateway" class="">
+                                        <?php foreach ( $payment_methods as $method ): ?>
                                             <?php
-                                                $payment_gateway = $settings['payment_gateway'];
-                                                $selected = '';
-                                                if( isset( $method->id ) ) :
-                                                    if( $type == $method->id ) :
-                                                        $selected ='selected';
+                                                $pselected = '';
+                                                $method_id = $method->id;
+                                                if( isset( $method_id ) ) :
+                                                    if( $settings['payment_gateway'] == $method_id ) :
+                                                        $pselected ='selected';
                                                     endif;
                                                 endif; 
                                             ?>
-                                            <option value="<?php echo esc_attr($method->id); ?> " <?php echo esc_attr($selected); ?>><?php echo esc_html($method->get_title()); ?></option>
+                                            <option value="<?php echo esc_attr($method_id); ?>" <?php echo esc_attr($pselected); ?>><?php echo esc_html($method->get_title()); ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 <?php else: ?>
