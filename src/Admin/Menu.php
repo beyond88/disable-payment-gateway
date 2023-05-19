@@ -8,16 +8,30 @@ namespace  DisablePaymentGateway\Admin;
 class Menu {
 
     /**
-    * Plugin main file
+    * Option name
     *
     */
-    public $main;
+    public $_optionName  = 'dpgw_settings';
+
+    /**
+    * Option group
+    *
+    */
+    public $_optionGroup = 'dpgw_options_group';
+
+    /**
+    * Default option
+    *
+    */
+    public $_defaultOptions = [];
 
     /**
      * Initialize the class
      */
     function __construct() {
         add_action( 'admin_menu', [ $this, 'admin_menu' ] );
+        add_action( 'plugins_loaded', [ $this, 'set_default_options' ] );
+        add_action( 'admin_init', [ $this, 'menu_register_settings' ] );
     }
 
     /**
@@ -64,5 +78,26 @@ class Menu {
             include $template;
         }
     }
+
+    /**
+	 * Save the setting options		
+	 * 
+	 * @since    1.0.0
+	 * @param    array
+	 */
+	public function menu_register_settings() {
+		add_option( $this->_optionName, $this->_defaultOptions );	
+		register_setting( $this->_optionGroup, $this->_optionName );
+	}
+
+    /**
+	 * Apply filter with default options
+	 * 
+	 * @since    1.0.0
+	 * @param    none
+	 */
+	public function set_default_options() {
+		return apply_filters( 'dpgw_default_options', $this->_defaultOptions );
+	}
 
 }
