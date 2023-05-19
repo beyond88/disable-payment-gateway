@@ -59,4 +59,39 @@ class Helpers {
 		return wp_parse_args( get_option(self::$_optionName), self::$_defaultOptions );
 	}
 
+    /**
+	 * Check product already is in cart
+	 * 
+	 * @param    none $product_id
+	 * @since    1.0.0
+     */
+	public static function check_is_in_cart( $product_type ) {
+        
+        // Make sure it's only on front end
+        if (is_admin()) return false;
+
+        defined( 'WC_ABSPATH' ) || exit;
+
+        include_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+        include_once WC_ABSPATH . 'includes/class-wc-cart.php';
+
+		global $woocommerce;
+        $flag = false;
+
+        if ( is_null( WC()->cart ) ) {
+            wc_load_cart();
+        }
+
+        foreach( $woocommerce->cart->get_cart() as $cart_item ) {
+            $product_id = $cart_item['product_id'];
+            $_product = wc_get_product( $product_id );
+            if( $_product->get_type() == $product_type ) {
+                $flag = true;
+                break;
+            }
+        } 
+		
+		return $flag;
+	}
+
 }
