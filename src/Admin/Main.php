@@ -9,7 +9,6 @@ class Main
 {
 
 	public function __construct() {
-		//Menu::init();
 		new Menu();
 	}    
     

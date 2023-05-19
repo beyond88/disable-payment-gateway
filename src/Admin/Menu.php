@@ -1,6 +1,6 @@
 <?php 
 namespace  DisablePaymentGateway\Admin;
-
+use DisablePaymentGateway\Helpers; 
 
 /**
  * The Menu handler class
@@ -58,9 +58,9 @@ class Menu {
      * @return void
      */
     public function enqueue_assets() {
-        wp_enqueue_style( 'dpgw-admin-boostrap' );
-        wp_enqueue_style( 'dpgw-admin-style' );
-        wp_enqueue_script( 'dpgw-admin-script' );
+        // wp_enqueue_style( 'dpgw-admin-boostrap' );
+        // wp_enqueue_style( 'dpgw-admin-style' );
+        // wp_enqueue_script( 'dpgw-admin-script' );
     }
 
     /**
@@ -71,19 +71,26 @@ class Menu {
      * @return void
      */
     public function plugin_page() {
-
         $template = __DIR__ . '/views/settings.php';
 
-        if ( file_exists( $template ) ) {
-            include $template;
+        if (file_exists($template)) {
+            $product_types = Helpers::get_all_product_types();
+            $payment_methods = Helpers::get_all_payment_methods();
+            $settings = Helpers::get_settings();
+            
+            require_once $template;
+        } else {
+            echo $error_message = "Settings template not found.";
+            // Handle the error message appropriately, such as logging or displaying it to the user.
         }
     }
 
     /**
 	 * Save the setting options		
 	 * 
-	 * @since    1.0.0
-	 * @param    array
+	 * @since  1.0.0
+	 * @param  none
+     * @return void
 	 */
 	public function menu_register_settings() {
 		add_option( $this->_optionName, $this->_defaultOptions );	
@@ -95,6 +102,7 @@ class Menu {
 	 * 
 	 * @since    1.0.0
 	 * @param    none
+     * @return void
 	 */
 	public function set_default_options() {
 		return apply_filters( 'dpgw_default_options', $this->_defaultOptions );
