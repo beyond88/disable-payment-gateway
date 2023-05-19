@@ -1,0 +1,17 @@
+{
+  "name": "kader/disable-payment-gateway",
+  "description": "Disable Payment Gateway Based on Product Type",
+  "autoload": {
+    "psr-4": {
+      "DisablePaymentGateway\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "beyond88",
+      "email": "muhin.cse.diu@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {}
+}
